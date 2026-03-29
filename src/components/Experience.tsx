@@ -12,11 +12,11 @@ const experiences = [
     location: 'Bangalore, India',
     current: true,
     highlights: [
-      'Developed a full-stack AI insights platform using React, Node.js, and PostgreSQL, scaling it to 500+ active users.',
+      'Architected and launched a full-stack AI insights platform (React, TypeScript, Node.js, Python/Flask, PostgreSQL) from greenfield to 500+ active users, improving operational efficiency by 24.8%',
       'Built 15+ RESTful APIs with optimized SQL queries, improving response times and system throughput.',
       'Created real-time analytics dashboards using Chart.js and Highcharts with drill-down filters and data export.',
       'Revamped a Next.js application with SSR and lazy loading, reducing load time by 44% and achieving 95+ Lighthouse score.',
-      'Established automated testing suite using Jest and React Testing Library, reducing production defects.',
+      'Maintained 80%+ test coverage (Jest, pytest) with a TDD-first approach across frontend and backend services, reducing production defects by 35%, awarded Best Team Award FY 2023–24 for zero P0 incidents',
     ],
   },
 ];
@@ -40,7 +40,7 @@ export default function Experience() {
   return (
     <section id="experience" className="section-padding" style={{ background: 'var(--bg-secondary)' }}>
       <div className="container-custom">
-        <motion.div 
+        <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -51,7 +51,7 @@ export default function Experience() {
           <h2 className="heading-lg">Where I&apos;ve <span style={{ color: 'var(--accent)' }}>Worked</span></h2>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           className="max-w-3xl mx-auto"
           initial="hidden"
           whileInView="visible"
