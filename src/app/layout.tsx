@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Amarveer Singh — Software Engineer',
     description:
-      'Delivering scalable web applications with a focus on modern front-end technologies and seamless user experiences.',
+      'Crafting web applications using modern front-end technologies and robust backend integrations to deliver seamless user experiences.',
     type: 'website',
   },
 };

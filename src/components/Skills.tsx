@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import TechMarquee from './TechMarquee';
 
 const skillGroups = [
   {
@@ -45,6 +46,10 @@ const techBadges = [
   'Jest', 'Docker', 'Git', 'Azure', 'REST APIs', 'SQL',
 ];
 
+// Split the badges into two rows for the marquee effect
+const topRow = techBadges.slice(0, Math.ceil(techBadges.length / 2));
+const bottomRow = techBadges.slice(Math.ceil(techBadges.length / 2));
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -56,19 +61,6 @@ const containerVariants = {
 const cardVariants = {
   hidden: { opacity: 0, scale: 0.95 },
   visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } }
-};
-
-const badgeContainerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.05, delayChildren: 0.3 }
-  }
-};
-
-const badgeVariants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300, damping: 20 } }
 };
 
 export default function Skills() {
@@ -98,7 +90,7 @@ export default function Skills() {
 
         {/* Skill bars */}
         <motion.div 
-          className="grid md:grid-cols-3 gap-6 mb-16"
+          className="grid md:grid-cols-3 gap-6 mb-24"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -122,7 +114,7 @@ export default function Skills() {
                       <span className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
                         {skill.name}
                       </span>
-                      <span className="text-xs font-mono" style={{ color: 'var(--accent)' }}>
+                      <span className="text-xs font-mono" style={{ color: 'var(--text-secondary)' }}>
                         {skill.level}%
                       </span>
                     </div>
@@ -137,8 +129,7 @@ export default function Skills() {
                         viewport={{ once: true }}
                         transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
                         style={{
-                          background: `linear-gradient(90deg, var(--accent), #7fffcf)`,
-                          boxShadow: '0 0 8px rgba(0,220,130,0.4)',
+                          background: `linear-gradient(90deg, var(--bg-card), var(--accent))`,
                         }}
                       />
                     </div>
@@ -148,55 +139,27 @@ export default function Skills() {
             </motion.div>
           ))}
         </motion.div>
+      </div>
 
-        {/* Tech badge cloud */}
-        <div className="text-center">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-          >
-            <p className="text-xs font-semibold uppercase tracking-widest mb-6"
-              style={{ color: 'var(--text-muted)' }}>
-              All Technologies
-            </p>
-          </motion.div>
+      {/* Infinite Horizontal Tech Marquee */}
+      <div className="text-center w-full">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
+          <p className="text-xs font-semibold uppercase tracking-widest mb-8"
+             style={{ color: 'var(--text-muted)' }}>
+            All Technologies
+          </p>
+        </motion.div>
 
-          <motion.div 
-            className="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
-            variants={badgeContainerVariants}
-          >
-            {techBadges.map((tech) => (
-              <motion.span
-                key={tech}
-                variants={badgeVariants}
-                whileHover={{ scale: 1.05 }}
-                className="px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 cursor-default"
-                style={{
-                  border: '1px solid var(--border)',
-                  color: 'var(--text-secondary)',
-                  background: 'var(--bg-card)',
-                }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLSpanElement;
-                  el.style.borderColor = 'var(--accent)';
-                  el.style.color = 'var(--accent)';
-                  el.style.background = 'var(--accent-glow)';
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLSpanElement;
-                  el.style.borderColor = 'var(--border)';
-                  el.style.color = 'var(--text-secondary)';
-                  el.style.background = 'var(--bg-card)';
-                }}
-              >
-                {tech}
-              </motion.span>
-            ))}
-          </motion.div>
+        {/* Full-width container ignoring container max-width constraints */}
+        <div className="w-full relative flex flex-col gap-2">
+          {/* Top Row Marquee */}
+          <TechMarquee items={topRow} speed={30} />
+          {/* Bottom Row Marquee moving in reverse */}
+          <TechMarquee items={bottomRow} speed={35} reverse={true} />
         </div>
       </div>
     </section>

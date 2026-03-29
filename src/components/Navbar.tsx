@@ -1,18 +1,17 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { Menu, X, Sun, Moon, Code2 } from 'lucide-react';
 import { useTheme } from './ThemeProvider';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const navLinks = [
-  { href: '#home', label: 'Home' },
-  { href: '#about', label: 'About' },
-  { href: '#experience', label: 'Experience' },
-  { href: '#projects', label: 'Projects' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#contact', label: 'Contact' },
+  { id: 'home', label: 'Home', href: '/' },
+  { id: 'about', label: 'About', href: '/about' },
+  { id: 'experience', label: 'Experience', href: '/experience' },
+  { id: 'projects', label: 'Projects', href: '/projects' },
+  { id: 'skills', label: 'Skills', href: '/skills' },
+  { id: 'contact', label: 'Contact', href: '/contact' },
 ];
 
 export default function Navbar() {
@@ -21,21 +20,62 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState('home');
 
+  // Handle initial load routing
   useEffect(() => {
+    const handleInitialLoad = () => {
+      const path = window.location.pathname.replace('/', '') || 'home';
+      const el = document.getElementById(path);
+      if (el) {
+        // slight delay to ensure layout is ready
+        setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 100);
+      }
+    };
+    handleInitialLoad();
+  }, []);
+
+  // Handle scroll spy and dynamic URL updates
+  useEffect(() => {
+    let ignoreNextUpdate = false;
+
     const onScroll = () => {
       setScrolled(window.scrollY > 20);
-      const sections = navLinks.map((l) => l.href.slice(1));
+      
+      if (ignoreNextUpdate) return;
+
+      const sections = navLinks.map((l) => l.id);
       for (const s of sections.reverse()) {
         const el = document.getElementById(s);
-        if (el && window.scrollY >= el.offsetTop - 100) {
-          setActive(s);
+        if (el && window.scrollY >= el.offsetTop - 150) {
+          if (active !== s) {
+            setActive(s);
+            const newPath = s === 'home' ? '/' : `/${s}`;
+            if (window.location.pathname !== newPath) {
+              window.history.replaceState(null, '', newPath);
+            }
+          }
           break;
         }
       }
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  }, [active]);
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string, href: string) => {
+    e.preventDefault();
+    setOpen(false);
+    
+    // Deep routing without reload
+    window.history.pushState(null, '', href);
+    setActive(id);
+    
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    } else if (id === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   return (
     <motion.header
@@ -54,39 +94,43 @@ export default function Navbar() {
     >
       <div className="container-custom flex items-center justify-between">
         {/* Logo */}
-        <Link href="#home" className="flex items-center gap-2 group" id="nav-logo">
+        <a 
+          href="/" 
+          onClick={(e) => handleNavClick(e, 'home', '/')}
+          className="flex items-center gap-2 group cursor-pointer" 
+          id="nav-logo"
+        >
           <motion.div 
             whileHover={{ scale: 1.1, rotate: 5 }}
             whileTap={{ scale: 0.95 }}
             className="w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300"
             style={{ background: 'var(--accent)' }}
           >
-            <Code2 size={16} className="text-black font-bold" />
+            <Code2 size={16} className="font-bold" style={{ color: 'var(--bg-main)' }} />
           </motion.div>
           <span className="font-bold text-sm tracking-wide hidden sm:block" style={{ color: 'var(--text-primary)' }}>
             Amarveer<span style={{ color: 'var(--accent)' }}>.dev</span>
           </span>
-        </Link>
+        </a>
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-1" aria-label="Main navigation">
           {navLinks.map((link) => (
             <motion.a
-              key={link.href}
+              key={link.id}
               href={link.href}
-              id={`nav-${link.label.toLowerCase()}`}
+              id={`nav-${link.id}`}
+              onClick={(e) => handleNavClick(e, link.id, link.href)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`relative px-4 py-2 text-sm font-medium transition-colors duration-200 ${
-                active === link.href.slice(1)
-                  ? 'text-accent'
-                  : 'hover:text-accent'
+              className={`relative px-4 py-2 text-sm font-medium transition-colors duration-200 cursor-pointer ${
+                active === link.id ? 'text-accent' : 'hover:text-accent'
               }`}
               style={{
-                color: active === link.href.slice(1) ? 'var(--accent)' : 'var(--text-secondary)',
+                color: active === link.id ? 'var(--accent)' : 'var(--text-secondary)',
               }}
             >
-              {active === link.href.slice(1) && (
+              {active === link.id && (
                 <motion.div
                   layoutId="nav-pill"
                   className="absolute inset-0 rounded-lg pointer-events-none"
@@ -127,7 +171,7 @@ export default function Navbar() {
             id="mobile-menu-btn"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="md:hidden w-9 h-9 rounded-lg flex items-center justify-center transition-colors"
+            className="md:hidden w-9 h-9 rounded-lg flex items-center justify-center transition-colors cursor-pointer"
             style={{ border: '1px solid var(--border)', color: 'var(--text-secondary)' }}
             onClick={() => setOpen(!open)}
             aria-label="Toggle menu"
@@ -151,14 +195,14 @@ export default function Navbar() {
             <div className="container-custom flex flex-col gap-1 py-4">
               {navLinks.map((link) => (
                 <a
-                  key={link.href}
+                  key={link.id}
                   href={link.href}
-                  id={`mobile-nav-${link.label.toLowerCase()}`}
-                  onClick={() => setOpen(false)}
-                  className="px-4 py-3 rounded-lg text-sm font-medium transition-colors"
+                  id={`mobile-nav-${link.id}`}
+                  onClick={(e) => handleNavClick(e, link.id, link.href)}
+                  className="px-4 py-3 rounded-lg text-sm font-medium transition-colors cursor-pointer"
                   style={{ 
-                    color: active === link.href.slice(1) ? 'var(--accent)' : 'var(--text-secondary)',
-                    background: active === link.href.slice(1) ? 'var(--accent-glow)' : 'transparent'
+                    color: active === link.id ? 'var(--accent)' : 'var(--text-secondary)',
+                    background: active === link.id ? 'var(--accent-glow)' : 'transparent'
                   }}
                 >
                   {link.label}

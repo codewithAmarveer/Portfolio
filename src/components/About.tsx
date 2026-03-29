@@ -62,7 +62,7 @@ export default function About() {
             <p className="body-text mb-8">
               Currently at <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>C5i</span>, I
               build full-stack AI insights platforms, real-time analytics dashboards, and lead
-              front-end performance optimizations that have measurably improved user engagement and
+              front-end performance and database optimizations that have measurably improved user engagement and
               development velocity.
             </p>
 
