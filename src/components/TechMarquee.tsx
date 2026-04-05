@@ -15,12 +15,12 @@ export default function TechMarquee({ items, speed = 40, reverse = false }: Tech
   return (
     <div className="relative w-full overflow-hidden py-4 flex items-center">
       {/* Edge Gradients for smooth fade-in/fade-out */}
-      <div 
-        className="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none"
+      <div
+        className="absolute left-0 top-0 bottom-0 z-10 pointer-events-none"
         style={{ background: 'linear-gradient(to right, var(--bg-secondary), transparent)' }}
       />
-      <div 
-        className="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none"
+      <div
+        className="absolute right-0 top-0 bottom-0 z-10 pointer-events-none"
         style={{ background: 'linear-gradient(to left, var(--bg-secondary), transparent)' }}
       />
 
@@ -41,7 +41,7 @@ export default function TechMarquee({ items, speed = 40, reverse = false }: Tech
         {marqueeItems.map((tech, idx) => (
           <div
             key={`${tech}-${idx}`}
-            className="px-5 py-2.5 rounded-2xl text-sm font-medium transition-colors duration-300"
+            className="px-5 py-2.5 rounded-2xl text-sm font-medium whitespace-nowrap shrink-0 transition-colors duration-300"
             style={{
               border: '1px solid var(--border)',
               color: 'var(--text-primary)',

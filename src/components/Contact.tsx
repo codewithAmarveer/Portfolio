@@ -24,7 +24,7 @@ const contactLinks = [
     icon: Linkedin,
     label: 'LinkedIn',
     value: 'linkedin.com/in/amarveer-singh',
-    href: 'https://linkedin.com/in/amarveer-singh',
+    href: 'https://www.linkedin.com/in/amarveer-singh-9a6b63251',
   },
 ];
 
@@ -48,7 +48,7 @@ export default function Contact() {
   return (
     <section id="contact" className="section-padding relative overflow-hidden">
       <div className="container-custom relative z-10">
-        <motion.div 
+        <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -67,7 +67,7 @@ export default function Contact() {
 
         <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
           {/* Left — info */}
-          <motion.div 
+          <motion.div
             className="space-y-6"
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -124,7 +124,7 @@ export default function Contact() {
           </motion.div>
 
           {/* Right — form */}
-          <motion.div 
+          <motion.div
             className="glass-card p-8"
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -132,7 +132,7 @@ export default function Contact() {
             transition={{ duration: 0.6 }}
           >
             {sent ? (
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="h-full flex flex-col items-center justify-center text-center py-8"

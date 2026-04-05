@@ -19,7 +19,7 @@ const socialLinks = [
   },
   {
     id: 'hero-linkedin',
-    href: 'https://linkedin.com/in/amarveer-singh',
+    href: 'https://www.linkedin.com/in/amarveer-singh-9a6b63251',
     label: 'LinkedIn',
     icon: Linkedin,
   },

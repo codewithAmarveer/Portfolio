@@ -4,7 +4,7 @@ import { Github, Linkedin, Mail, Heart, Code2 } from 'lucide-react';
 
 const links = [
   { id: 'footer-github', href: 'https://github.com/codewithAmarveer', icon: Github, label: 'GitHub' },
-  { id: 'footer-linkedin', href: 'https://linkedin.com/in/amarveer-singh', icon: Linkedin, label: 'LinkedIn' },
+  { id: 'footer-linkedin', href: 'https://www.linkedin.com/in/amarveer-singh-9a6b63251', icon: Linkedin, label: 'LinkedIn' },
   { id: 'footer-email', href: 'mailto:amarwork6644@gmail.com', icon: Mail, label: 'Email' },
 ];
 
